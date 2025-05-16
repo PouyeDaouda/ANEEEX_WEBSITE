@@ -29,6 +29,7 @@ const blogRoutes = require('./routes/blogRoutes'); // Importer les routes du blo
 
 // Initialisation Express
 const app = express();
+app.set('trust proxy', 1); // Faire confiance au premier proxy (celui de Render)
 app.use(compression())
 // Configuration de Winston pour la journalisation
 const logger = winston.createLogger({
