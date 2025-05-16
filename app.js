@@ -4,6 +4,7 @@ const https = require('https');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo'); // Ajout de connect-mongo
 const bcrypt = require('bcryptjs'); // Décommenté et utilisé
 const path = require('path');
 const multer = require('multer'); // Ajout de multer
@@ -104,6 +105,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     fs.mkdirSync(uploadsDir, { recursive: true });
 // }
 
+// Configuration du store de session MongoDB
+const sessionStore = MongoStore.create({
+    mongoUrl: process.env.MDB_URI, // Utilise l'URI de votre base de données MongoDB
+    collectionName: 'sessions', // Nom de la collection où les sessions seront stockées
+    ttl: 14 * 24 * 60 * 60 // Temps de vie de la session en secondes (ex: 14 jours)
+});
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-super-secret-key-please-change', // Assurez-vous que SESSION_SECRET est défini et fort
     name: 'sessionId', // Nom générique pour le cookie de session
@@ -111,7 +119,8 @@ app.use(session({
     saveUninitialized: false, // Ne pas sauvegarder les sessions non modifiées
     cookie: {
         secure: process.env.NODE_ENV === 'production', // Mettre à true si vous utilisez HTTPS en production
-        httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client
+        httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client (bonne pratique)
+        maxAge: 1000 * 60 * 60 * 24 * 14, // Durée de vie du cookie (14 jours), correspond au TTL du store
         sameSite: 'lax' // Protection contre les attaques CSRF
     }
 }));
