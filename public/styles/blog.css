@@ -1,0 +1,238 @@
+:root {
+    --primary: #0486dc;
+    --primary-dark: #036bb3;
+    --white: #ffffff;
+    --light: #f8f4f4;
+    --dark: #011d44;
+    --text: #333333;
+    --border-radius: 8px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Blog Hero */
+#blog-hero {
+    background: linear-gradient(to right, var(--dark), var(--primary-dark));
+    color: var(--white);
+    padding: 80px 0;
+    text-align: center;
+}
+
+#blog-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+#blog-hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Blog Main */
+#blog-main {
+    padding: 60px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 40px; /* Augmenter l'espacement */
+    margin-top: 40px;
+}
+
+.blog-article {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex; /* Utiliser flex pour mieux contrôler la structure interne */
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Être spécifique sur les propriétés à transiter */
+}
+
+.blog-article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.article-media {
+    height: 220px; /* Augmenter légèrement la hauteur */
+    overflow: hidden;
+    background-color: #f0f0f0; /* Couleur de fond pour les images en chargement ou manquantes */
+    position: relative; /* Pour un positionnement futur d'éléments superposés si besoin */
+}
+
+.article-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-media iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.article-content {
+    padding: 25px; /* Augmenter le padding */
+    flex-grow: 1; /* Permet au contenu de prendre l'espace restant */
+    display: flex;
+    flex-direction: column;
+}
+
+.article-content h2 {
+    font-size: 1.5rem; /* Augmenter la taille du titre */
+    margin-bottom: 10px;
+    color: var(--dark);
+    line-height: 1.3;
+}
+
+.article-date {
+    color: #777; /* Adoucir la couleur */
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.article-desc {
+    color: var(--text);
+    margin-bottom: 20px; /* Plus d'espace avant "Lire la suite" */
+    line-height: 1.6;
+    flex-grow: 1; /* Permet à la description de pousser "Lire la suite" vers le bas */
+    /* Optionnel: Limiter le nombre de lignes pour la description si elle est trop longue */
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 4; */
+    /* -webkit-box-orient: vertical;   */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+}
+
+.read-more {
+    margin-top: auto; /* Pousse le lien vers le bas si la description est courte */
+    color: var(--primary);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s ease, gap 0.3s ease; /* Ajout d'une transition pour la couleur et l'espacement */
+}
+
+.read-more:hover, .read-more:focus {
+    gap: 8px;
+    color: var(--primary-dark);
+    text-decoration: underline; /* Souligner au survol pour plus de clarté */
+    outline: none;
+}
+
+.empty-blog {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.empty-blog i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.empty-blog h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.empty-blog p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+
+@media (max-width: 768px) {
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #blog-hero h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Styles pour l'overlay de l'article complet */
+#full-article-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fond semi-transparent */
+    z-index: 1000; /* Au-dessus des autres éléments */
+    display: none; /* Caché par défaut */
+    overflow-y: auto; /* Permet le défilement si le contenu est long */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#full-article-container {
+    height: 70vh;
+    overflow-y: auto; /* Permet le défilement si le contenu est long */
+    background-color: var(--white, #ffffff);
+    padding: 25px 30px;
+    border-radius: var(--border-radius, 8px);
+    max-width: 600px; /* Largeur maximale du contenu */
+    margin: 40px auto; /* Centré avec une marge en haut/bas */
+    position: relative; /* Pour positionner le bouton de fermeture */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#full-article-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #555;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.3s ease; /* Ajout d'une transition pour la couleur */
+}
+#full-article-container .close-btn:hover {
+    color: var(--dark, #000000);
+}
+
+#full-article-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 2rem; /* Ajustez selon vos préférences */
+    color: var(--dark, #011d44);
+}
+
+/* La classe .article-date est déjà définie, elle sera réutilisée */
+/* #full-article-date { ... } */
+
+#full-article-media-container img,
+#full-article-media-container iframe {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 4px; /* Consistance avec les aperçus */
+}
+
+/* Styles spécifiques pour les iframes vidéo si nécessaire (ex: ratio 16:9) */
+/* .video-container-dynamic { ... } */
+
+#full-article-description {
+    line-height: 1.7; /* Bonne lisibilité */
+    color: var(--text, #333333);
+}

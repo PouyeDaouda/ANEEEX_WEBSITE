@@ -1,0 +1,27 @@
+doctype html
+html(lang="fr")
+head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title ANEEEX Admin - #{title}
+    link(rel="preload", href="https://fonts.googleapis.com/css2?family=Creepster&family=Pacifico&family=Montserrat:wght@400;600;700&display=swap", as="style", onload="this.onload=null;this.rel='stylesheet'")
+    noscript
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css")
+    link(rel="stylesheet", href="/styles/admin.css")
+    block styles
+body
+    if showHeader !== false
+        header.admin-header
+            .container
+                .admin-header-top
+                    nav.site-nav
+                        a(href="/") Accueil
+                        a(href="/blog") Blog
+                        a(href="/a-propos") À propos
+                    nav.admin-nav
+                        a(href="/admin/logout") Déconnexion
+                    //- Vous pouvez ajouter d'autres liens du site principal ici si nécessaire
+    .container
+        block content
+    block scripts

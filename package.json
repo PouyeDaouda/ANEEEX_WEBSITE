@@ -1,0 +1,37 @@
+{
+  "name": "aneeex2",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify-js": "terser public/scripts/home.js -o public/scripts/home.min.js && terser public/scripts/header_footer.js -o public/scripts/header_footer.min.js && terser public/scripts/blog.js -o public/scripts/blog.min.js && terser public/scripts/admin.js -o public/scripts/admin.min.js",
+    "minify-css": "cleancss -o public/styles/home.min.css public/styles/home.css && cleancss -o public/styles/header_footer.min.css public/styles/header_footer.css && cleancss -o public/styles/blog.min.css public/styles/blog.css && cleancss -o public/styles/admin-login.min.css public/styles/admin-login.css && cleancss -o public/styles/apropos.min.css public/styles/apropos.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^1.41.3",
+    "compression": "^1.8.0",
+    "cookie": "^0.7.0",
+    "csrf": "^3.1.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.14.2",
+    "multer": "^1.4.5-lts.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "pug": "^3.0.3",
+    "sanitize-html": "^2.16.0",
+    "sitemap": "^8.0.0",
+    "spdy": "^4.0.2",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3"
+  }
+}

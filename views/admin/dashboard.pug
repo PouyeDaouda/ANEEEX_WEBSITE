@@ -1,0 +1,58 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/styles/admin-dashboard.css")
+
+block content
+    section.admin-dashboard
+        h2 Gestion des articles du blog
+        a.add-article-btn(href="#", id="addArticleBtn") + Nouvel article
+
+        .articles-list
+            if articles.length > 0
+                each article in articles
+                    .article-card
+                        .article-media-preview
+                            if article.mediaType === 'image' && article.mediaUrl
+                                img(src=article.mediaUrl, alt="Preview")
+                            else if article.mediaType === 'video' && article.mediaUrl
+                                .video-placeholder // Ce bloc ne devrait plus être atteint car mediaType est toujours 'image'
+                                    i.fas.fa-play-circle
+                                    p Vidéo (Ce cas ne devrait plus se produire)
+                        .article-info
+                            h3= article.title
+                            p= article.formattedDate
+                            .article-actions
+                                a.delete-btn(href="#", data-id=article._id) Supprimer
+            else
+                .empty-message
+                    i.fas.fa-box-open
+                    p Aucun article disponible
+
+    // Modal pour ajouter/modifier un article
+    .modal(id="articleModal")
+        .modal-content
+            span.close-modal &times;
+            h2(id="modalTitle") Nouvel article
+            form(id="articleForm")
+                input(type="hidden", name="_csrf", value=csrfToken)
+                // enctype="multipart/form-data" n'est pas nécessaire si vous utilisez Fetch API avec FormData
+                input(type="hidden", id="articleId")
+                .form-group
+                    label(for="titleModalInput") Titre
+                    input(type="text", id="titleModalInput", name="title", required)
+                .form-group
+                    label(for="descriptionModalInput") Description
+                    textarea(id="descriptionModalInput", name="description", rows="4", required)
+                //- Section de sélection du type de média supprimée
+                
+                .form-group(id="mediaFileInputGroupModal")
+                    label(for="mediaFileModal") Fichier image (Max 2MB)
+                    input(type="file", id="mediaFileModal", name="mediaFile", accept="image/*", required) 
+                
+                //- Champ pour l'URL de la vidéo supprimé
+
+                button(type="submit") Enregistrer
+
+block scripts
+    script(src="/scripts/admin.min.js")

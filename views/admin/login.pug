@@ -1,0 +1,20 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/styles/admin-login.min.css")
+
+block content
+    .login-container
+        .login-box
+            h1 Connexion Admin
+            if error
+                .error-message= error
+            form(method="POST")
+                input(type="hidden", name="_csrf", value=csrfToken)
+                .form-group
+                    label(for="username") Nom d'utilisateur
+                    input(type="text", id="username", name="username", value=username, required)
+                .form-group
+                    label(for="password") Mot de passe
+                    input(type="password", id="password", name="password", required)
+                button(type="submit") Se connecter

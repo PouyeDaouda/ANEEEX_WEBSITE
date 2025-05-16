@@ -1,0 +1,46 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/styles/blog.min.css")
+
+block corps
+    section#blog-hero
+        .container
+            h1 Blog ANEEEX
+            p Découvrez nos dernières publications et conseils pour l'excellence académique
+
+    section#blog-main
+        .container
+            if articles.length > 0
+                .articles-grid
+                    each article in articles
+                        article.blog-article
+                            if article.mediaType === 'image' && article.mediaUrl
+                                .article-media
+                                    img(src=article.mediaUrl, alt=article.title)
+                            //- La logique d'affichage des vidéos est supprimée
+
+                            .article-content
+                                h2= article.title
+                                p.article-date Publié le #{article.formattedDate}
+                                //- Utiliser l'extrait de description préparé dans la route
+                                p.article-desc= article.shortDescription
+                                a.read-more(href=`/blog/article/${article._id}/view`, data-article-id=article._id) Lire la suite →
+            else
+                .empty-blog
+                    i.fas.fa-box-open
+                    h2 Aucun article disponible pour le moment
+                    p Revenez bientôt pour découvrir nos publications
+
+    //- Conteneur pour afficher l'article complet en superposition (sera stylé via blog.css)
+    #full-article-overlay
+        #full-article-container
+            button.close-btn(aria-label="Fermer") &times;
+            //- Le contenu de l'article sera injecté ici par JavaScript
+            h2#full-article-title
+            p#full-article-date.article-date
+            #full-article-media-container
+            #full-article-description
+
+block scripts
+    script(src="/scripts/blog.min.js")

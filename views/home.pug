@@ -1,0 +1,75 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/styles/home.min.css")
+
+block scripts
+    script(src="/scripts/home.min.js")
+
+block corps 
+    #hero(role="banner" aria-label="Bannière principale")
+        #hero-container
+            h1 ANEEEX 
+            h2 Pour l'excellence de la jeunesse
+            p L'Association Nationale des Élèves &amp; Étudiants pour l'Excellence s'engage à promouvoir les valeurs éthiques et à soutenir le développement académique et personnel des jeunes à travers le Sénégal.
+            a(href="https://wa.me/221782073969" aria-label="Devenir membre de ANEEEX").cta-button Devenir membre
+    
+    section#mission(aria-label="Notre mission")
+        .container
+            h2 Notre mission
+            p.description Nous nous engageons à accompagner les jeunes dans leur développement personnel et académique à travers trois piliers fondamentaux.
+            #mission-container
+                article.pilier(aria-label="Valeurs et éthique")
+                    i.fas.fa-heart(aria-hidden="true")
+                    h3 Valeurs &amp; Ethique
+                    p Nous promouvons des valeurs fondamentales comme l'intégrité, le respect et la responsabilité pour former des citoyens exemplaires.
+                
+                article.pilier(aria-label="Soutien pédagogique")
+                    i.fas.fa-book-open(aria-hidden="true")
+                    h3 Soutien pédagogique
+                    p Nous offrons des cours de renforcement et des sessions d'apprentissage gratuites pour aider les jeunes à exceller dans leurs études.
+                
+                article.pilier(aria-label="Activités communautaires")
+                    i.fas.fa-users(aria-hidden="true")
+                    h3 Activités communautaires
+                    p Nous organisons des événements sociaux et culturels pour renforcer les liens entre les membres et développer un esprit de communauté.
+    
+    section#services(aria-label="Nos services")
+        .container
+            h2 Nos services
+            p.description Nous offrons une variété de services pour soutenir le développement académique et personnel des jeunes.
+            #services-container
+                article.service(aria-label="Cours de renforcement")
+                    i.fas.fa-graduation-cap(aria-hidden="true")
+                    .service-texte
+                        h3 Cours de renforcement
+                        p Sessions hebdomadaires de soutien scolaire dans les matières principales comme les mathématiques, les sciences, le français et les langues étrangères.
+                
+                article.service(aria-label="Cours de vacances")
+                    i.fas.fa-calendar-alt(aria-hidden="true")
+                    .service-texte
+                        h3 Cours de vacances 
+                        p Programmes d'accompagnement pendant les vacances scolaires pour aider les élèves à combler leurs lacunes et à préparer la rentrée suivante.
+                
+                article.service(aria-label="Séminaires et conférences")
+                    i.fas.fa-chalkboard-teacher(aria-hidden="true")
+                    .service-texte
+                        h3 Séminaires et conférences  
+                        p Événements réguliers animés par des experts sur des sujets variés comme l'orientation professionnelle, le développement personnel et l'éthique.
+                
+                article.service(aria-label="Sorties et activités sociales")
+                    i.fas.fa-users(aria-hidden="true")
+                    .service-texte
+                        h3 Sorties et activités sociales  
+                        p Activités sportives et événements sociaux pour renforcer l'esprit de communauté et créer des liens durables.
+    
+    //- section#actualites(aria-label="Actualités")
+    //-     .container
+    //-         if actualites.length > 0
+    //-             h2 Actualités
+    //-             #actualites-container
+    //-                 each actualite in actualites
+    //-                     article.actualite(aria-label=`Actualité : ${actualite.titre}`)
+    //-                         h3 #{actualite.titre}
+    //-                         p #{actualite.contenu}
+    //-                         time(datetime=actualite.date) #{new Date(actualite.date).toLocaleDateString('fr-FR')}

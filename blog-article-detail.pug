@@ -1,0 +1,82 @@
+extends layout
+
+block styles
+    //- link(rel="stylesheet", href="/styles/blog-article.min.css") // Créez ce fichier CSS si nécessaire
+    style.
+        .article-full-content .container { max-width: 800px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .article-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--dark-text); }
+        .article-meta { font-size: 0.9rem; color: #777; margin-bottom: 1.5rem; }
+        .article-media img { max-width: 100%; height: auto; border-radius: var(--border-radius); margin-bottom: 1.5rem; }
+        .article-body { font-size: 1.1rem; line-height: 1.7; color: var(--text-color); }
+        .article-body p { margin-bottom: 1rem; }
+        .article-body h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--dark-text); }
+        .article-body h3 { font-size: 1.5rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: var(--dark-text); }
+        .article-body ul, .article-body ol { margin-left: 2rem; margin-bottom: 1rem; }
+        .article-body a { color: var(--primary-color); text-decoration: underline; }
+        .article-body blockquote { border-left: 4px solid var(--primary-light); padding-left: 1rem; margin: 1rem 0; font-style: italic; }
+
+
+block corps
+    article.article-full-content(itemscope itemtype="http://schema.org/BlogPosting")
+        meta(itemprop="mainEntityOfPage", content=ogUrl)
+        .container
+            header.article-header
+                h1(itemprop="headline")= article.title
+                p.article-meta
+                    time(itemprop="datePublished", datetime=article.createdAt.toISOString()) Publié le #{article.formattedDate}
+                    span(itemprop="author", itemscope itemtype="http://schema.org/Organization")
+                        meta(itemprop="name", content="ANEEEX")
+                    span(itemprop="publisher", itemscope itemtype="http://schema.org/Organization")
+                        meta(itemprop="name", content="ANEEEX")
+                        span(itemprop="logo", itemscope itemtype="http://schema.org/ImageObject")
+                            meta(itemprop="url", content=`https://${typeof req !== 'undefined' && req.headers && req.headers.host || 'votredomaine.com'}/images/aneeex-logo.png`)
+
+
+            if article.mediaType === 'image' && article.mediaUrl
+                figure.article-media(itemprop="image", itemscope itemtype="http://schema.org/ImageObject")
+                    img(src=article.mediaUrl, alt=article.title, itemprop="url contentUrl")
+                    meta(itemprop="height", content="800") // Spécifiez la taille si connue
+                    meta(itemprop="width", content="400")  // Spécifiez la taille si connue
+            
+            section.article-body(itemprop="articleBody")
+                //- La description est déjà assainie par sanitize-html lors de la sauvegarde
+                !{article.description}
+            
+            //- Schema.org description (invisible)
+            meta(itemprop="description", content=pageDescription)
+
+
+block scripts
+    //- Le script JSON-LD pour Schema.org est maintenant intégré avec les attributs itemprop
+    //- Vous pouvez toujours ajouter un script JSON-LD séparé si vous préférez cette méthode
+    //- Exemple de script JSON-LD (alternatif ou complémentaire aux microdonnées itemprop) :
+    //- script(type="application/ld+json").
+    //-    {
+    //-      "@context": "https://schema.org",
+    //-      "@type": "BlogPosting",
+    //-      "mainEntityOfPage": {
+    //-        "@type": "WebPage",
+    //-        "@id": ogUrl
+    //-      },
+    //-      "headline": article.title,
+    //-      "image": {
+    //-         "@type": "ImageObject",
+    //-         "url": article.mediaUrl.startsWith('/') ? `https://${typeof req !== 'undefined' && req.headers && req.headers.host || 'votredomaine.com'}${article.mediaUrl}` : article.mediaUrl
+    //-      },
+    //-      "datePublished": article.createdAt.toISOString(),
+    //-      "dateModified": article.updatedAt ? article.updatedAt.toISOString() : article.createdAt.toISOString(), // Si vous avez un champ updatedAt
+    //-      "author": {
+    //-        "@type": "Organization",
+    //-        "name": "ANEEEX"
+    //-      },
+    //-      "publisher": {
+    //-        "@type": "Organization",
+    //-        "name": "ANEEEX",
+    //-        "logo": {
+    //-          "@type": "ImageObject",
+    //-          "url": `https://${typeof req !== 'undefined' && req.headers && req.headers.host || 'votredomaine.com'}/images/aneeex-logo.png`
+    //-        }
+    //-      },
+    //-      "description": pageDescription
+    //-    }
+

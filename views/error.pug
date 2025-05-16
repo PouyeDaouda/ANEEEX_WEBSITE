@@ -1,0 +1,46 @@
+extends layout
+
+block styles
+    style.
+        .error-container {
+            text-align: center;
+            padding: 50px 20px;
+            min-height: 60vh; /* Pour occuper de l'espace même avec peu de contenu */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .error-container h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color, #dc3545); /* Couleur d'erreur par défaut si variable non définie */
+            margin-bottom: 20px;
+        }
+        .error-container p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-color, #333);
+        }
+        .error-container pre {
+            background-color: var(--light-bg, #f8f9fa);
+            padding: 15px;
+            border-radius: var(--border-radius, 5px);
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-width: 800px;
+            margin: 20px auto;
+            color: var(--dark-text, #212529);
+            border: 1px solid var(--gray-light, #e0e0e0);
+        }
+
+block corps
+    .error-container(role="main")
+        // error.status est maintenant toujours défini grâce aux modifications dans app.js
+        h1 Erreur #{error.status} 
+        // message est également toujours défini
+        p #{message}
+        // La pile d'erreurs ne sera affichée que si error.stack est défini (c'est-à-dire en mode développement)
+        if error.stack
+            pre #{error.stack}
+        a(href="/").cta-button Retour à l'accueil

@@ -1,0 +1,49 @@
+doctype html
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(name="description", content=pageDescription || "ANEEEX - Association Nationale des Élèves & Étudiants pour l'Excellence. Promouvoir les valeurs éthiques et soutenir le développement académique des jeunes.")
+        title #{title} | ANEEEX
+        <link rel="preload" as="image" href="/images/hero_mobile2.webp">
+        <link rel="preload" as="image" href="/images/hero.webp">
+        link(rel="preload", href="https://fonts.googleapis.com/css2?family=Creepster&family=Pacifico&family=Montserrat:wght@400;600;700&display=swap", as="style", onload="this.onload=null;this.rel='stylesheet'")
+        noscript
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Creepster&family=Pacifico&family=Montserrat:wght@400;600;700&display=swap")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css")
+        link(rel="stylesheet", href="/styles/header_footer.min.css")
+        block styles
+    body.responsive
+        header
+            #header-container
+                a(href="/" class="logo" aria-label="Retour à l'accueil ANEEEX") ANEEEX
+                button.menu-toggle(aria-label="Menu mobile" aria-expanded="false")
+                    i.fas.fa-bars
+                nav
+                    a(href="/" aria-current="page") Accueil
+                    a(href="/blog") Blog
+                    a(href="/a-propos") À propos
+
+                #connect-container
+                    a(href="https://wa.me/221782073969") Devenir membre
+                    a(href="/admin/login") Admin
+        main 
+            block corps
+        footer
+            #navigation-media
+                #navigation 
+                    a(href="/") Accueil
+                    a(href="/blog") Blog 
+                    a(href="/a-propos") À propos
+                #social-media 
+                    a(href="https://www.facebook.com/aneeexyoff/" aria-label="Facebook" target="_blank")
+                        i.fab.fa-facebook
+                    a(href="https://www.youtube.com/channel/UCW9xocK-hLyOAp6fb2t2FQg" aria-label="YouTube" target="_blank")
+                        i.fab.fa-youtube
+                    a(href="https://wa.me/221763907665" aria-label="WhatsApp")
+                        i.fab.fa-whatsapp
+            #copyright 
+                p © 2025 ANEEEX. Tous droits réservés.
+
+        script(src="/scripts/header_footer.min.js")
+        block scripts

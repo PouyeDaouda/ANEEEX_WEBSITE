@@ -1,0 +1,125 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/styles/apropos.min.css")
+
+block corps
+    section#hero-about
+        .container
+            h1 À Propos de l'ANEEEX
+            p Découvrez notre histoire, notre mission et notre vision pour la jeunesse sénégalaise
+
+    section#about-content
+        .container
+            .about-grid
+                .about-card.history-card
+                    .card-header
+                        h2 Notre Histoire
+                        i.fas.fa-history
+                    .card-body
+                        p Fondée en 2008 et officiellement reconnue en 2014, l'Association Nationale des Élèves et Étudiants pour l'Excellence (ANEEEX) est devenue une référence dans l'accompagnement de la jeunesse sénégalaise.
+                        p Depuis plus de 15 ans, nous œuvrons pour l'épanouissement intellectuel, moral et civique des jeunes à travers tout le Sénégal.
+                        .milestones
+                            .milestone
+                                .year 2008
+                                .event Création de l'ANEEEX
+                            .milestone
+                                .year 2014
+                                .event Reconnaissance officielle
+                            .milestone
+                                .year 2023
+                                .event 50+ événements organisés
+
+                .about-card.mission-card
+                    .card-header
+                        h2 Notre Mission
+                        i.fas.fa-bullseye
+                    .card-body
+                        p Notre engagement se décline en trois axes principaux :
+                        ul.mission-list
+                            li
+                                i.fas.fa-graduation-cap
+                                div
+                                    h3 Excellence Académique
+                                    p Programmes de soutien pédagogique, ateliers pratiques et conférences animées par des experts.
+                            li
+                                i.fas.fa-users
+                                div
+                                    h3 Engagement Citoyen
+                                    p Formation de jeunes leaders éthiques, conscients de leurs responsabilités sociales.
+                            li
+                                i.fas.fa-hand-holding-heart
+                                div
+                                    h3 Valeurs Morales
+                                    p Promotion des valeurs de discipline, d'intégrité et de solidarité.
+
+                .about-card.actions-card
+                    .card-header
+                        h2 Nos Actions
+                        i.fas.fa-cogs
+                    .card-body
+                        .action-item
+                            .action-icon
+                                i.fas.fa-microphone-alt
+                            .action-content
+                                h3 Séminaires & Conférences
+                                p Organisés régulièrement sur des thématiques éducatives et éthiques.
+                        .action-item
+                            .action-icon
+                                i.fas.fa-hands-helping
+                            .action-content
+                                h3 Programme de Mentorat
+                                p Accompagnement personnalisé pour les jeunes dans leur parcours académique.
+                        .action-item
+                            .action-icon
+                                i.fas.fa-bullhorn
+                            .action-content
+                                h3 Campagnes de Sensibilisation
+                                p Sur les valeurs morales et l'importance cruciale de l'éducation.
+
+                .about-card.vision-card
+                    .card-header
+                        h2 Notre Vision
+                        i.fas.fa-eye
+                    .card-body
+                        p Nous aspirons à bâtir une génération de jeunes leaders :
+                        .vision-points
+                            .vision-point
+                                i.fas.fa-check-circle
+                                span Conscients de leurs responsabilités
+                            .vision-point
+                                i.fas.fa-check-circle
+                                span Animés par des valeurs solides
+                            .vision-point
+                                i.fas.fa-check-circle
+                                span Déterminés à contribuer au développement
+                        p Notre objectif est de créer un impact durable sur la société sénégalaise à travers l'éducation et l'engagement citoyen.
+
+    //- section#team-section
+    //-     .container
+    //-         h2 Notre Équipe
+    //-         p Rencontrez les passionnés qui font vivre l'ANEEEX au quotidien
+    //-         .team-grid
+    //-             .team-member
+    //-                 .member-photo(style="background-image: url('/images/team1.jpg')")
+    //-                 h3 Mamadou Diop
+    //-                 p Président Fondateur
+    //-             .team-member
+    //-                 .member-photo(style="background-image: url('/images/team2.jpg')")
+    //-                 h3 Aminata Ndiaye
+    //-                 p Responsable Pédagogique
+    //-             .team-member
+    //-                 .member-photo(style="background-image: url('/images/team3.jpg')")
+    //-                 h3 Ibrahima Sarr
+    //-                 p Coordinateur des Programmes
+    //-             .team-member
+    //-                 .member-photo(style="background-image: url('/images/team4.jpg')")
+    //-                 h3 Fatou Bâ
+    //-                 p Chargée de Communication
+
+    section#join-us
+        .container
+            h2 Rejoignez Notre Mouvement
+            p Devenez acteur du changement pour la jeunesse sénégalaise
+            .join-options
+                a(href="https://wa.me/221782073969").cta-button Devenir Membre
