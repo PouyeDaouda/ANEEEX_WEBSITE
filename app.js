@@ -117,6 +117,7 @@ app.use(session({
     name: 'sessionId', // Nom générique pour le cookie de session
     resave: false,
     saveUninitialized: false, // Ne pas sauvegarder les sessions non modifiées
+    store: sessionStore, // Utiliser MongoStore pour stocker les sessions
     cookie: {
         secure: process.env.NODE_ENV === 'production', // Mettre à true si vous utilisez HTTPS en production
         httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client (bonne pratique)
