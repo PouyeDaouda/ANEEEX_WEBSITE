@@ -486,6 +486,8 @@ app.get('/admin/logout', (req, res) => {
     });
 });
 
+const PORT = process.env.PORT || 3000;
+
 // --- Début de la configuration HTTPS/SPDY ---
 // Assurez-vous que les fichiers .pem générés par mkcert sont dans le bon répertoire
 // et que les noms de fichiers correspondent à ce que mkcert a créé.
@@ -507,13 +509,4 @@ spdy.createServer(options, app).listen(PORT, (err) => {
         return process.exit(1);
     }
     logger.info(`Server SPDY/HTTPS running on port ${PORT}`);
-});
-// --- Fin de la configuration HTTPS/SPDY ---
-
-// L'ancien app.listen(PORT, ...) est maintenant remplacé par spdy.createServer(...).listen(...)
-// Si vous déployez sur une plateforme qui gère HTTPS (comme Render), vous devrez commenter
-// la partie spdy.createServer et décommenter app.listen pour la production.
-// app.listen(PORT, () => {
-//     logger.info(`Server running on port ${PORT}`);
-// });
 });
