@@ -3,15 +3,14 @@ name: Keep Render Service Alive
 
 on:
   schedule:
-    # Planification 1: Chaque 3 heures à la minute 15 (ex: 00:15, 03:15, 06:15, ...)
-    - cron: '15 */3 * * *'
-    # Planification 2: Chaque 4 heures à la minute 45 (ex: 00:45, 04:45, 08:45, ...)
-    - cron: '45 */4 * * *'
-    # Planification 3: Chaque 5 heures à la minute 0 (ex: 00:00, 05:00, 10:00, ...)
-    - cron: '0 */5 * * *'
-    # Ces planifications combinées créent des intervalles variés entre les pings.
-    # Les intervalles réels varieront entre environ 15 minutes et 2.5 heures.
-    # L'objectif est de simuler une activité irrégulière pour éviter la mise en veille.
+    # Pings plus fréquents pour tenter de garder le service actif.
+    # Ces planifications combinées visent un ping toutes les 10-20 minutes environ.
+    # Exécute aux minutes 7 et 37 de chaque heure.
+    - cron: '7,37 * * * *'
+    # Exécute aux minutes 19 et 49 de chaque heure.
+    - cron: '19,49 * * * *'
+    # Exécute à la minute 55 de chaque heure (pour un autre point de contact).
+    - cron: '55 * * * *'
 
 jobs:
   ping_site:
