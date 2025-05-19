@@ -1,0 +1,30 @@
+# .github/workflows/keep-alive.yml
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    # Planification 1: Chaque 3 heures à la minute 15 (ex: 00:15, 03:15, 06:15, ...)
+    - cron: '15 */3 * * *'
+    # Planification 2: Chaque 4 heures à la minute 45 (ex: 00:45, 04:45, 08:45, ...)
+    - cron: '45 */4 * * *'
+    # Planification 3: Chaque 5 heures à la minute 0 (ex: 00:00, 05:00, 10:00, ...)
+    - cron: '0 */5 * * *'
+    # Ces planifications combinées créent des intervalles variés entre les pings.
+    # Les intervalles réels varieront entre environ 15 minutes et 2.5 heures.
+    # L'objectif est de simuler une activité irrégulière pour éviter la mise en veille.
+
+jobs:
+  ping_site:
+    runs-on: ubuntu-latest # Exécute la tâche sur une machine virtuelle Ubuntu
+
+    steps:
+      - name: Ping the website # Nom de l'étape
+        # Utilise l'outil en ligne de commande 'curl' pour faire une requête HTTP GET.
+        # -s: Mode silencieux (supprime la barre de progression et les messages d'erreur)
+        # -S: Affiche les erreurs même en mode silencieux
+        # -f: Échoue silencieusement sur les erreurs serveur (codes 4xx ou 5xx)
+        # -L: Suit les redirections (utile si Render redirige HTTP vers HTTPS)
+        # "${{ secrets.WEBSITE_URL }}": Utilise le secret GitHub que vous avez configuré
+        # > /dev/null: Redirige la sortie standard vers /dev/null (la jette)
+        # || echo "Ping failed": Si la commande curl échoue (code de retour non nul), affiche "Ping failed"
+        run: curl -sSfL "${{ secrets.WEBSITE_URL }}" > /dev/null || echo "Ping failed"
