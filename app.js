@@ -488,25 +488,53 @@ app.get('/admin/logout', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// --- Début de la configuration HTTPS/SPDY ---
-// Assurez-vous que les fichiers .pem générés par mkcert sont dans le bon répertoire
-// et que les noms de fichiers correspondent à ce que mkcert a créé.
-// Par défaut, mkcert crée des fichiers nommés d'après les hôtes demandés (ex: localhost+2.pem, localhost+2-key.pem)
-const options = {
-    key: fs.readFileSync(path.join(__dirname, 'localhost+2-key.pem')), // Remplacez par le nom de votre fichier clé
-    cert: fs.readFileSync(path.join(__dirname, 'localhost+2.pem')),     // Remplacez par le nom de votre fichier certificat
-    spdy: {
-        protocols: ['h2', 'http/1.1'], // Préfère HTTP/2 si supporté, sinon retombe sur HTTP/1.1
-        plain: false, // N'autorise pas les connexions non chiffrées
-        'x-forwarded-for': true, // Gère l'en-tête X-Forwarded-For si derrière un proxy
-    }
-};
+if (process.env.NODE_ENV === 'production') {
+    // En production (ex: sur Render), la plateforme gère HTTPS.
+    // L'application doit écouter en HTTP sur le port fourni.
+    app.listen(PORT, () => {
+        logger.info(`Serveur HTTP démarré et écoutant sur le port ${PORT} en mode production.`);
+        logger.info('HTTPS est géré par le proxy inverse (ex: Render).');
+    });
+} else {
+    // En développement, utiliser SPDY/HTTPS avec les certificats locaux si disponibles
+    const keyPath = path.join(__dirname, 'localhost+2-key.pem');
+    const certPath = path.join(__dirname, 'localhost+2.pem');
 
-// Créez le serveur SPDY/HTTPS
-spdy.createServer(options, app).listen(PORT, (err) => {
-    if (err) {
-        logger.error("Erreur lors du démarrage du serveur SPDY/HTTPS:", err);
-        return process.exit(1);
+    if (fs.existsSync(keyPath) && fs.existsSync(certPath)) {
+        try {
+            const options = {
+                key: fs.readFileSync(keyPath),
+                cert: fs.readFileSync(certPath),
+                spdy: {
+                    protocols: ['h2', 'http/1.1'],
+                    plain: false,
+                    'x-forwarded-for': true,
+                }
+            };
+
+            spdy.createServer(options, app).listen(PORT, (err) => {
+                if (err) {
+                    logger.error("Erreur lors du démarrage du serveur SPDY/HTTPS en développement:", err);
+                    logger.info("Basculement vers un serveur HTTP simple en mode développement.");
+                    app.listen(PORT, () => {
+                        logger.info(`Serveur HTTP de secours démarré sur le port ${PORT} en mode développement.`);
+                    });
+                } else {
+                    logger.info(`Serveur SPDY/HTTPS démarré et écoutant sur le port ${PORT} en mode développement.`);
+                }
+            });
+        } catch (error) {
+            logger.error("Erreur lors de la configuration du serveur SPDY/HTTPS (lecture des certificats) en développement:", error);
+            logger.info("Basculement vers un serveur HTTP simple en mode développement.");
+            app.listen(PORT, () => {
+                logger.info(`Serveur HTTP de secours démarré sur le port ${PORT} en mode développement (certificats non valides ou erreur de configuration).`);
+            });
+        }
+    } else {
+        logger.warn("Certificats SSL pour le développement (localhost+2-key.pem, localhost+2.pem) non trouvés.");
+        logger.info("Démarrage en HTTP simple en mode développement.");
+        app.listen(PORT, () => {
+            logger.info(`Serveur HTTP démarré sur le port ${PORT} en mode développement.`);
+        });
     }
-    logger.info(`Server SPDY/HTTPS running on port ${PORT}`);
-});
+}
