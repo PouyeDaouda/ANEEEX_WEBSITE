@@ -486,10 +486,34 @@ app.get('/admin/logout', (req, res) => {
     });
 });
 
-// Démarrer le serveur
-const PORT = process.env.PORT || 3000; // Utiliser le port fourni par l'environnement ou 3000 par défaut
+// --- Début de la configuration HTTPS/SPDY ---
+// Assurez-vous que les fichiers .pem générés par mkcert sont dans le bon répertoire
+// et que les noms de fichiers correspondent à ce que mkcert a créé.
+// Par défaut, mkcert crée des fichiers nommés d'après les hôtes demandés (ex: localhost+2.pem, localhost+2-key.pem)
+const options = {
+    key: fs.readFileSync(path.join(__dirname, 'localhost+2-key.pem')), // Remplacez par le nom de votre fichier clé
+    cert: fs.readFileSync(path.join(__dirname, 'localhost+2.pem')),     // Remplacez par le nom de votre fichier certificat
+    spdy: {
+        protocols: ['h2', 'http/1.1'], // Préfère HTTP/2 si supporté, sinon retombe sur HTTP/1.1
+        plain: false, // N'autorise pas les connexions non chiffrées
+        'x-forwarded-for': true, // Gère l'en-tête X-Forwarded-For si derrière un proxy
+    }
+};
 
-// Démarrer un serveur HTTP standard (l'hébergeur gère HTTPS)
-app.listen(PORT, () => {
-    logger.info(`Server running on port ${PORT}`);
+// Créez le serveur SPDY/HTTPS
+spdy.createServer(options, app).listen(PORT, (err) => {
+    if (err) {
+        logger.error("Erreur lors du démarrage du serveur SPDY/HTTPS:", err);
+        return process.exit(1);
+    }
+    logger.info(`Server SPDY/HTTPS running on port ${PORT}`);
+});
+// --- Fin de la configuration HTTPS/SPDY ---
+
+// L'ancien app.listen(PORT, ...) est maintenant remplacé par spdy.createServer(...).listen(...)
+// Si vous déployez sur une plateforme qui gère HTTPS (comme Render), vous devrez commenter
+// la partie spdy.createServer et décommenter app.listen pour la production.
+// app.listen(PORT, () => {
+//     logger.info(`Server running on port ${PORT}`);
+// });
 });
